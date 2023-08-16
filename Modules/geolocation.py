@@ -25,13 +25,7 @@ class GeoLocation: # class 'Geolocation'
 
             # User Input:
             target_ip = input(Fore.LIGHTGREEN_EX + " +[+[ Set Target Ip :>> ")
-
-            # # HackerTarget api
-            # urls = "https://api.hackertarget.com/ipgeo/?q={}".format(target_ip)
-            # response = requests.get(urls)
-            # print(response.text)
-
-            # json request getting by ipapi.location()
+            
             geoTracker = ipapi.location(ip=target_ip)
 
             print(
