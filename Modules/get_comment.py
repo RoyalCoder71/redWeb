@@ -4,7 +4,7 @@ import requests
 
 url = "https://www.virustotal.com/api/v3/domains/google.com/comments?limit=20"
 
-api_key = "555adb7fa5616fb5a7bc437bfdb0c40c00a58ea2dc313fdbf3604b1d43b59bbe"
+api_key = "{Your API Key}"
 
 headers = {'x-apikey':api_key,"accept": "application/json"}
 
