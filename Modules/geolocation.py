@@ -46,7 +46,6 @@ class GeoLocation: # class 'Geolocation'
             country = geoTracker["country"]
             longitude = geoTracker["longitude"]
             latitude = geoTracker["latitude"]
-            # google_api_key = "AIzaSyD5TbwN_zheFV8cM5ZcpDdCNipEAV9LEMA"
 
             print(
                 "======================[Target Information]==========================")
