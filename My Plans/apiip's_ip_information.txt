@@ -1,0 +1,7 @@
+# import requests
+# import apiip
+# api_url = 'http://apiip.net/api/check?accessKey=fa494c18-5953-486d-ade4-5bf8cca80254'
+# ip = '&ip=103.54.148.21'
+# res = requests.get(api_url + ip)
+# json_response = res.json()
+# print(json_response)

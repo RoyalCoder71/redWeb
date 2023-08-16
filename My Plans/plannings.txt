@@ -1,0 +1,28 @@
+Plannings:-----
+
+>> Read and Study about:
+
+[!] Modules:
+1. ipapi
+2. os
+3. sys
+
+[!] api: https://api.hackertarget.com/[module of Hacker Target]/?q=
+# module of Hacker Target:
+1. ipgeo
+2. httpheaders
+3. pagelinks
+4. dnslookup
+
+[!] Tools want to make:
+1. geolocation finder,
+2. httpheader capture,
+3. [ip, domain] scanner tools with hacker targets' api
+
+[!] Took idea from:
+1. https://github.com/ultrasecurity/webkiller/tree/master/modules
+
+
+>> 'Problems' solution about importing 3rd party module like ['colorama', 'requests'...]:
+1. pip3 install colorama
+2. use python 3.9.0 interpreter

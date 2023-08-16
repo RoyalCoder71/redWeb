@@ -1,0 +1,4 @@
+requests
+ipapi
+colorama
+bs4
