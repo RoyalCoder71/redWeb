@@ -1,5 +1,5 @@
 # RedWeb
-(https://i.postimg.cc/8c2ZZLk9/IMG-20220105-215938.jpg)
+![Screenshot](https://i.postimg.cc/8c2ZZLk9/IMG-20220105-215938.jpg)
 # Installation & Run 
 ```
 git clone  https://github.com/RoyalCoder71/redWeb
