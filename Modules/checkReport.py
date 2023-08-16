@@ -18,7 +18,7 @@ class CheckReport:
             print()
             
             # Api data:
-            api_key = "555adb7fa5616fb5a7bc437bfdb0c40c00a58ea2dc313fdbf3604b1d43b59bbe"        
+            api_key = "{Your API Key}"        
             api_url = 'https://www.virustotal.com/vtapi/v2/domain/report'
 
             # User Input:
