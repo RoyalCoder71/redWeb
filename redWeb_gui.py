@@ -6,7 +6,7 @@ import requests
 from tkinter import *
 from bs4 import BeautifulSoup
 from colorama import Fore, Back, Style
-from Modules.Designing_Module.banner import Banner
+
 
 
 
@@ -175,12 +175,7 @@ def geoLocation():
 
 
 
-
-
-
-
-
-def domain_report():
+def whois_report():
         try:
             # Making Text Widget Writable
             text.config(state=NORMAL)
@@ -189,62 +184,41 @@ def domain_report():
             # Banner Inserting to text widget
             text.insert(END, """\n              
 ====================================================================
-                    [+[+[+ Domain Report Checker +]+]+]          
+                    [+[+[+ Whois Report Checker +]+]+]          
                     Developed by: Royal Coder 71                   
                     Developer Version: 1.2.24LTx0                    
 ====================================================================\n
-""")      
+""")   
 
 
-
-            # Api data:
+             # Api data:
             api_key = "555adb7fa5616fb5a7bc437bfdb0c40c00a58ea2dc313fdbf3604b1d43b59bbe"        
-            api_url = 'https://www.virustotal.com/vtapi/v2/domain/report'
+            api_url = 'https://www.virustotal.com/api/v3/domains/'
 
             # User Input:
             target_domain = entry.get()
+            full_url = api_url + target_domain
 
-            # Get response:
-            parameters = {'apikey':api_key,'domain':target_domain}
-            response = requests.get(api_url, params = parameters)
+
+            # Request Header:
+            headers = {
+                "accept": "application/json",
+                "x-apikey": f"{api_key}"
+            }
+
+             # ================================================ Get Response & convert to json ======================================================================================================
+            response = requests.get(full_url, headers=headers)
             json_response = response.json()
 
-                    
-            # Access to json_response:
-            sub_domains = json_response["subdomains"]
-            who_is = json_response["whois"]
-            resolutions = json_response['resolutions']
-            category = json_response["alphaMountain.ai category"]
-
-                    
-
-            # WebSite Informations:
-            text.insert(END,"\n\n================+[+[ WebSite's Informations ]+]+===============\n\n")
-            text.insert(END, who_is + "\n\n")
-
-
-
-            # Category of Website:
-            text.insert(END, "\n\n==================+[+[ WebSite's Catagory ]+]+=================\n\n")
-            text.insert(END, category + "\n\n")
-
-
-
-            # Subdomain Finder:
-            text.insert(END, "\n\n=================+[+[ WebSite's Subdomains ]+]+================\n\n")
-            i = 0
-            for subdomain in sub_domains:
-                i += 1
-                text.insert(END, f"Subdomain-{i}: {subdomain}\n")
-
-
-            # More Informations:
-            text.insert(END, "\n\n==================+[+[ More informations ]+]+==================\n\n")
-            for data in resolutions:
-                ip_address = data["ip_address"]
-                last_updated = data["last_resolved"]
-                text.insert(END, f"IP Address: {ip_address}, Last Updated: {last_updated}\n")
-
+            # ================================================ Whois Report ======================================================================================================
+            text.insert(END, "\n\n====================== Whois Report ======================\n\n")
+            try:
+                whois = json_response["data"]["attributes"]["whois"]
+                text.insert(END, whois)  
+            except Exception:
+                text.insert(END, "NO Whois Report Found, Use another Website")
+                pass     
+            
             # Cursor remain at last
             text.see(END)
 
@@ -262,6 +236,90 @@ def domain_report():
             text.config(state=DISABLED)
 
 
+def malware_report():
+    try:
+        # Making Text Widget Writable
+        text.config(state=NORMAL)
+            
+
+        # Banner Inserting to text widget
+        text.insert(END, """\n              
+====================================================================
+                    [+[+[+ Malware Scan Report  +]+]+]          
+                    Developed by: Royal Coder 71                   
+                    Developer Version: 1.2.24LTx0                    
+====================================================================\n
+""")      
+
+
+
+
+        # Api data:
+        api_key = "555adb7fa5616fb5a7bc437bfdb0c40c00a58ea2dc313fdbf3604b1d43b59bbe"        
+        api_url = 'https://www.virustotal.com/api/v3/domains/'
+
+        # User Input:
+        target_domain = entry.get()
+        full_url = api_url + target_domain
+
+
+        # Request Header:
+        headers = {
+            "accept": "application/json",
+            "x-apikey": f"{api_key}"
+        }
+
+        # ================================================ Get Response & convert to json ======================================================================================================
+        response = requests.get(full_url, headers=headers)
+        json_response = response.json() 
+            
+            
+
+
+        # ================================================ Malware Scanning Report ======================================================================================================
+        text.insert(END, "\n\n====================== Malware Scanning Report ======================\n\n")
+        try:
+
+            # Scan Result in Summary:
+            malicious_report = json_response["data"]["attributes"]["last_analysis_stats"]["malicious"]
+            suspicious_report = json_response["data"]["attributes"]["last_analysis_stats"]["suspicious"]
+            harmless_report = json_response["data"]["attributes"]["last_analysis_stats"]["harmless"]
+            undetected_report = json_response["data"]["attributes"]["last_analysis_stats"]["undetected"]
+            text.insert(END, f"Malicious Found: {malicious_report}\nSuspicious Found: {suspicious_report}\nHarmless Found: {harmless_report}\nUndetected Found: {undetected_report}\n")
+
+
+            text.insert(END, "\n====================== Report in Details ======================\n\n")            
+            # Scan Report in Details 
+            Engine_Scan_Report = json_response["data"]["attributes"]["last_analysis_results"]
+            for single_engine in Engine_Scan_Report:
+                engine_name = Engine_Scan_Report[single_engine]['engine_name']
+                category_result = Engine_Scan_Report[single_engine]['category']
+                text.insert(END, f"[+] Engine Name: [{engine_name}] and Scan Report: [{category_result}]\n")
+
+            # Cursor remain at last
+            text.see(END)
+
+            # Making Text Widget Read-Only or !Writable
+            text.config(state=DISABLED)
+        except Exception:
+            text.insert(END, "!!! Scanning Failed Due to Some Reason")     
+
+
+            # Cursor remain at last
+            text.see(END)
+
+            # Making Text Widget Read-Only or !Writable
+            text.config(state=DISABLED)
+
+    except Exception:
+        # Inserting Informations to Text Widget
+        text.insert(END,"\nError Found! You Should Enter only Domain to get Domain Report\n")
+
+        # Cursor remain at last
+        text.see(END)
+
+        # Making Text Widget Read-Only or !Writable
+        text.config(state=DISABLED)
 
 
 
@@ -303,19 +361,22 @@ text.grid(padx=45, pady=2, column=0)
 
 # Create Extract and DNS-Hook and Ip-Location and Domain Reporter Button
 b1 = Button(root, text="Extract Links", command=link_extract, bg="darkorchid", fg="white")
-b1.place(x=150,y=655)
+b1.place(x=80,y=655)
 
 b2 = Button(root, text="Hook the DNS", command=hook_dns, bg="darkorchid", fg="white")
-b2.place(x=340,y=655)
+b2.place(x=240,y=655)
 
 b3 = Button(root, text="IP Location", command=geoLocation, bg="darkorchid", fg="white")
-b3.place(x=540,y=655)
+b3.place(x=420,y=655)
 
-b4 = Button(root, text="Domain Report", command=domain_report, bg="darkorchid", fg="white")
-b4.place(x=750,y=655)
+b4 = Button(root, text="Get Whois Report", command=whois_report, bg="darkorchid", fg="white")
+b4.place(x=580,y=655)
 
-b5 = Button(root, text="Clear Screen", command=clr_screen, bg="red2", fg="white", height=2, width=10)
-b5.place(x=871,y=76)
+b5 = Button(root, text="Check Malware", command=malware_report, bg="darkorchid", fg="white")
+b5.place(x=790,y=655)
+
+b6 = Button(root, text="Clear Screen", command=clr_screen, bg="red2", fg="white", height=2, width=10)
+b6.place(x=871,y=76)
 
 # Close
 root.mainloop()
