@@ -6,6 +6,7 @@ import requests
 from tkinter import *
 from bs4 import BeautifulSoup
 from colorama import Fore, Back, Style
+from Modules.Designing_Module.banner import Banner
 
 
 
@@ -16,6 +17,17 @@ def link_extract():
     try:
         # Making Text Widget Writable
         text.config(state=NORMAL)
+
+
+        # Banner Inserting to text widget
+        text.insert(END, """\n              
+====================================================================
+                    [+[+[+  Website Link Extractor +]+]+]          
+                    Developed by: Royal Coder 71                   
+                    Developer Version: 1.2.24LTx0                    
+====================================================================\n
+""")
+        
 
         # https://example.com
         full_url = "http://" + entry.get()    
@@ -63,6 +75,17 @@ def hook_dns():
         # Making Text Widget Writable
         text.config(state=NORMAL)
 
+
+        # Banner Inserting to text widget
+        text.insert(END, """\n              
+====================================================================
+                    [+[+[+     HOOK DNS NOW    +]+]+]          
+                    Developed by: Royal Code 71                   
+                    Developer Version: 1.2.24LTx0                    
+====================================================================\n
+""")
+         
+
         # User Input:
         user_input = entry.get()
 
@@ -104,6 +127,16 @@ def geoLocation():
         # Making Text Widget Writable
         text.config(state=NORMAL)
 
+
+        # Banner Inserting to text widget
+        text.insert(END, """\n              
+====================================================================
+                    [+[+[+ Geolocation Grabber  +]+]+]          
+                    Developed by: Royal Coder 71                   
+                    Developer Version: 1.2.24LTx0                    
+====================================================================\n
+""") 
+
         # User Input:
         target_ip = entry.get()    
 
@@ -144,10 +177,105 @@ def geoLocation():
 
 
 
+
+
+
+def domain_report():
+        try:
+            # Making Text Widget Writable
+            text.config(state=NORMAL)
+            
+
+            # Banner Inserting to text widget
+            text.insert(END, """\n              
+====================================================================
+                    [+[+[+ Domain Report Checker +]+]+]          
+                    Developed by: Royal Coder 71                   
+                    Developer Version: 1.2.24LTx0                    
+====================================================================\n
+""")      
+
+
+
+            # Api data:
+            api_key = "555adb7fa5616fb5a7bc437bfdb0c40c00a58ea2dc313fdbf3604b1d43b59bbe"        
+            api_url = 'https://www.virustotal.com/vtapi/v2/domain/report'
+
+            # User Input:
+            target_domain = entry.get()
+
+            # Get response:
+            parameters = {'apikey':api_key,'domain':target_domain}
+            response = requests.get(api_url, params = parameters)
+            json_response = response.json()
+
+                    
+            # Access to json_response:
+            sub_domains = json_response["subdomains"]
+            who_is = json_response["whois"]
+            resolutions = json_response['resolutions']
+            category = json_response["alphaMountain.ai category"]
+
+                    
+
+            # WebSite Informations:
+            text.insert(END,"\n\n================+[+[ WebSite's Informations ]+]+===============\n\n")
+            text.insert(END, who_is + "\n\n")
+
+
+
+            # Category of Website:
+            text.insert(END, "\n\n==================+[+[ WebSite's Catagory ]+]+=================\n\n")
+            text.insert(END, category + "\n\n")
+
+
+
+            # Subdomain Finder:
+            text.insert(END, "\n\n=================+[+[ WebSite's Subdomains ]+]+================\n\n")
+            i = 0
+            for subdomain in sub_domains:
+                i += 1
+                text.insert(END, f"Subdomain-{i}: {subdomain}\n")
+
+
+            # More Informations:
+            text.insert(END, "\n\n==================+[+[ More informations ]+]+==================\n\n")
+            for data in resolutions:
+                ip_address = data["ip_address"]
+                last_updated = data["last_resolved"]
+                text.insert(END, f"IP Address: {ip_address}, Last Updated: {last_updated}\n")
+
+            # Cursor remain at last
+            text.see(END)
+
+            # Making Text Widget Read-Only or !Writable
+            text.config(state=DISABLED)
+
+        except Exception:
+            # Inserting Informations to Text Widget
+            text.insert(END,"\nError Found! You Should Enter only Domain to get Domain Report\n")
+
+            # Cursor remain at last
+            text.see(END)
+
+            # Making Text Widget Read-Only or !Writable
+            text.config(state=DISABLED)
+
+
+
+
+
+def clr_screen():
+    text.configure(state=NORMAL)
+    text.delete("1.0", "end")
+    text.configure(state=DISABLED)
+
+
+
 # Create an instance of tkinter frame
 root = Tk()
 root.geometry("1000x695")
-root.title("RedWEB Pro 1.0.24-cTx0 | Authorized by Royal Coder 71")
+root.title("RedWEB Pro 1.2.24LTx0 | Authorized by Royal Coder 71")
 root.configure(background="black")
 #Set the resizable property False
 root.resizable(False, False)
@@ -158,7 +286,7 @@ root.resizable(False, False)
 # Create 2 label widgets for showing text
 label = Label(root, font=("Helvetica", 23), text="Enter Your Target 'example.com' or 'IP address' ",bg="black", fg="red")
 label.grid(padx=45,pady=2, column=0)
-label = Label(root, font=("Helvetica", 17, "bold"), text="Developed By Royal Coder 71",bg="black", fg="yellow")
+label = Label(root, font=("Helvetica", 17, "bold"), text="Developed By Royal Coder 71",bg="black", fg="lime")
 label.grid(padx=45,pady=1, column=0)
 
 
@@ -173,18 +301,21 @@ text = Text(root, font=("Helvetica", 12), height=29, width=100, wrap="word")
 text.grid(padx=45, pady=2, column=0)
 
 
-# Create Extract and DNS-Hook and Ip-Location Button
-b1 = Button(root, text="Extract Links", command=link_extract)
-b1.place(x=250,y=655)
+# Create Extract and DNS-Hook and Ip-Location and Domain Reporter Button
+b1 = Button(root, text="Extract Links", command=link_extract, bg="darkorchid", fg="white")
+b1.place(x=150,y=655)
 
-b2 = Button(root, text="Hook the DNS", command=hook_dns)
-b2.place(x=450,y=655)
+b2 = Button(root, text="Hook the DNS", command=hook_dns, bg="darkorchid", fg="white")
+b2.place(x=340,y=655)
 
-b3 = Button(root, text="IP Location", command=geoLocation)
-b3.place(x=660,y=655)
+b3 = Button(root, text="IP Location", command=geoLocation, bg="darkorchid", fg="white")
+b3.place(x=540,y=655)
 
+b4 = Button(root, text="Domain Report", command=domain_report, bg="darkorchid", fg="white")
+b4.place(x=750,y=655)
 
-
+b5 = Button(root, text="Clear Screen", command=clr_screen, bg="red2", fg="white", height=2, width=10)
+b5.place(x=871,y=76)
 
 # Close
 root.mainloop()
