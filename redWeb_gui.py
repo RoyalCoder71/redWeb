@@ -192,7 +192,7 @@ def whois_report():
 
 
              # Api data:
-            api_key = "555adb7fa5616fb5a7bc437bfdb0c40c00a58ea2dc313fdbf3604b1d43b59bbe"        
+            api_key = ""        
             api_url = 'https://www.virustotal.com/api/v3/domains/'
 
             # User Input:
@@ -255,7 +255,7 @@ def malware_report():
 
 
         # Api data:
-        api_key = "555adb7fa5616fb5a7bc437bfdb0c40c00a58ea2dc313fdbf3604b1d43b59bbe"        
+        api_key = ""        
         api_url = 'https://www.virustotal.com/api/v3/domains/'
 
         # User Input:
